@@ -17,6 +17,8 @@ import yaml
 from zeroconf import IPVersion
 from zeroconf.asyncio import AsyncServiceInfo, AsyncZeroconf
 
+COMPOSE_PATHS = "docker-compose-paths"
+
 
 class AsyncRunner:
     def __init__(self, interface: str):
@@ -69,10 +71,10 @@ if __name__ == '__main__':
         interface = subprocess.getoutput("wsl -d docker-desktop ip route ^| head -1 ^| awk '{print $3}'")
         IPv4Address(interface)  # validate IPv4 address
     print(f"Hostnames will be announced via {interface} interface")
-    if "docker-compose-path" in config and "hostnames" in config:
+    if COMPOSE_PATHS in config and "hostnames" in config:
         print("Warning: docker compose config path specified, hostname list will be ignored")
-    if "docker-compose-paths" in config:
-        for dc_path in config["docker-compose-paths"]:
+    if COMPOSE_PATHS in config:
+        for dc_path in config[COMPOSE_PATHS]:
             with open(dc_path) as f:
                 services = yaml.safe_load(f)['services']
             for name in services:
@@ -88,7 +90,7 @@ if __name__ == '__main__':
     elif "hostnames" in config:
         hostnames = [i for i in config["hostnames"]]
     else:
-        raise ValueError("Specify 'docker-compose-paths' list or 'hostnames' list in config.yml")
+        raise ValueError(f"Specify '{COMPOSE_PATHS}' list or 'hostnames' list in config.yml")
 
     infos = []
     for i in hostnames:
