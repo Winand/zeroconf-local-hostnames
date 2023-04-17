@@ -1,0 +1,13 @@
+# interface: "172.26.0.1"  # WSL interface
+docker-compose-paths:
+    - ..\docker-dev-env\docker-compose.yml
+hostnames:
+    # Spark
+    - spark-master
+    - spark-worker-1
+    # Hadoop
+    - namenode
+    - datanode
+    # Kafka
+    - kafka-1
+    - kafka-ui
