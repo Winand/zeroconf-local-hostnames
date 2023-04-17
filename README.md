@@ -8,6 +8,8 @@ Note: Windows can resolve hostnames even if ".local" top level domain isn't spec
 The main purpose of the script is to connect to Docker containers by hostname from applications on the host OS.
 The script can collect hostnames from `docker-compose.yml` files.
 
+Note: You also need to [map ports](https://docs.docker.com/compose/compose-file/compose-file-v3/#ports) to be able to actually connect to your container.
+
 ## Config
 Configuration is read from `config.yml` file:
 * `interface` (string) - specifies which interface to use to announce services (hostnames)
