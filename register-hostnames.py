@@ -63,7 +63,7 @@ if __name__ == '__main__':
     hostnames = []
 
     with open("config.yml") as f:
-        config = yaml.safe_load(f)
+        config = yaml.safe_load(f) or {}
     if "interface" in config:
         interface = config['interface']
     else:
@@ -87,13 +87,15 @@ if __name__ == '__main__':
                 hostname = strip_local(service.get('hostname'))
                 if hostname and hostname not in hostnames:
                     hostnames.append(hostname)
-    elif "hostnames" in config:
-        hostnames = [i for i in config["hostnames"]]
-    else:
+    if "hostnames" in config:
+        for hostname in config["hostnames"]:
+            hostnames.append(hostname)
+    if "docker-compose-paths" not in config and "hostnames" not in config:
         raise ValueError(f"Specify '{COMPOSE_PATHS}' list or 'hostnames' list in config.yml")
 
     infos = []
-    for i in hostnames:
+    # remove duplicates from list https://www.w3schools.com/python/python_howto_remove_duplicates.asp
+    for i in dict.fromkeys(hostnames):
         infos.append(
             AsyncServiceInfo(
                 "_http._tcp.local.",

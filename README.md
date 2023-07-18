@@ -16,4 +16,4 @@ Configuration is read from `config.yml` file:
 By default WSL2 interface is used.
 * `docker-compose-paths` (list) - docker-compose files to collect hostnames from.
 Docker service names are registered along with names in `container_name` and `hostname` fields if specified.
-* `hostnames` (list) - list of hostnames to register. It's ignored if any docker-compose files are specified.
+* `hostnames` (list) - list of hostnames to register.
